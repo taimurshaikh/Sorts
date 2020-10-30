@@ -2,7 +2,8 @@ from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 
-from helpers import Sorts
+# Sorting and searching algorithms from other program
+from helpers import *
 
 # Configure application
 app = Flask(__name__)
@@ -25,30 +26,51 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Initialize sorter class that holds all sorting algorithms
-sorter = Sorts()
-
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
     '''Home Page where user can choose which sort they want'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("index.html")
-    # POST REQUEST
-    pass
+
+@app.route("/sorts", methods=["GET"])
+def sorts():
+    '''Display page for sorts'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("sorts.html")
+
+@app.route("/searches", methods=["GET"])
+def searches():
+    '''Display page for searches'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("searches.html")
 
 @app.route("/bSort", methods=["GET", "POST"])
 def bSort():
-    pass
+    '''Bubble sort page'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("bubbleSort.html")
 
 @app.route("/mSort", methods=["GET", "POST"])
 def mSort():
-    pass
+    '''Merge sort page'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("mergeSort.html")
 
 @app.route("/lSearch", methods=["GET", "POST"])
 def lSearch():
-    pass
+    '''Linear Search page'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("linearSearch.html")
 
 @app.route("/bSearch", methods=["GET", "POST"])
 def bSearch():
-    pass
+    '''Binary Search page'''
+    # GET REQUEST
+    if request.method == 'GET':
+        return render_template("binarySearch.html")

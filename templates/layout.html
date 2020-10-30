@@ -15,50 +15,29 @@
 
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
-        <title>Zabaan: {% block title %}{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
 
     </head>
 
     <body>
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light border">
+        <nav class="navbar navbar-expand-md navbar-custom border">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <a class="navbar-brand bold" id="title" href="/">Home</a></li>
+            <a class="navbar-brand bold title" href="/">Home</a></li>
 
 
 
             <div class="collapse navbar-collapse" id="navbar">
-                {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link option link" href="/saved">Saved</a></li>
-                        <li class="nav-item"><a class="nav-link option link" href="/about">About</a></li>
+                        <li class="nav-item"><a class="nav-link option link" href="/sorts">Sorts</a></li>
+                        <li class="nav-item"><a class="nav-link option link" href="/searches">Searches</a></li>
                     </ul>
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link option link" href="/passwordchange">Change Password</a></li>
-                        <li class="nav-item"><a class="nav-link option link" href="/logout">Log Out</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link option link" href="/about">About</a></li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link option link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link option link" href="/login">Log In</a></li>
-                    </ul>
-                {% endif %}
             </div>
         </nav>
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary border text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
-        {% endif %}
 
         <main class="container p-5">
             {% block main %}{% endblock %}
