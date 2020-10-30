@@ -45,7 +45,6 @@ def mergeSort(vals, steps=0):
         return res
     if not isNumList(vals):
         return -1
-    steps += 1
     if len(vals) == 1:
         return vals
     midpoint = len(vals) // 2
@@ -81,6 +80,3 @@ def binarySearch(vals, val, steps=0):
     elif val > vals[midpoint]:
         steps += 1
         return binarySearch(vals[midpoint:], val, steps)
-
-res = mergeSort([2, 3, 5, 7, 9, 8, 4])
-print(res)
