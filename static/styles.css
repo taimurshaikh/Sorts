@@ -20,7 +20,7 @@ nav .navbar-brand
 .heading
 {
   font-size: 150%;
-  margin-left: auto;
+
   margin-bottom: auto;
   margin-top: auto;
 }
@@ -30,8 +30,8 @@ nav .navbar-brand
     font-size: 200%;
     font-weight: bold;
     margin-left: auto;
-    margin-bottom: auto;
-    margin-top: auto;
+    margin-bottom: 5%;
+
 }
 
 .title:hover
@@ -42,11 +42,14 @@ nav .navbar-brand
 text
 {
   color: #AC3B61;
+  margin: auto;
 }
 
 textarea
 {
     resize: none;
+    margin: auto;
+    overflow: hidden;
 }
 
 .option

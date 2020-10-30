@@ -1,4 +1,5 @@
-function doNothing
+function disableMultiLine(id)
 {
-    var x = 1;
+  box = document.getElementByID(id);
+  box.value = box.value.replace(/\n/g,'');
 }
