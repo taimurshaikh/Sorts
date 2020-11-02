@@ -15,7 +15,7 @@ def isNumList(lst):
             return False
     return True
 
-def bubbleSort(vals):
+def bSort(vals):
     if not isNumList:
         return -1
     steps = 0
@@ -29,7 +29,7 @@ def bubbleSort(vals):
                 vals[j-1], vals[j] = vals[j], vals[j-1]
     return (vals, steps)
 
-def mergeSort(vals, steps=0):
+def mSort(vals, steps=0):
     steps += 1
     def merge(l1, l2):
         res = []
@@ -48,11 +48,11 @@ def mergeSort(vals, steps=0):
     if len(vals) == 1:
         return vals
     midpoint = len(vals) // 2
-    firstHalf = mergeSort(vals[:midpoint])
-    secondHalf = mergeSort(vals[midpoint:])
+    firstHalf = mSort(vals[:midpoint])
+    secondHalf = mSort(vals[midpoint:])
     return merge(firstHalf, secondHalf)
 
-def linearSearch(vals, val):
+def lSearch(vals, val):
     if not isNumList:
         return -1
     steps = 0
@@ -62,7 +62,7 @@ def linearSearch(vals, val):
             return steps
     return False
 
-def binarySearch(vals, val, steps=0):
+def bSearch(vals, val, steps=0):
     if not isSorted(vals) or not isNumList(vals):
         return -1
     if len(vals) == 1:
@@ -76,7 +76,7 @@ def binarySearch(vals, val, steps=0):
         return steps
     if val < vals[midpoint]:
         steps += 1
-        return binarySearch(vals[:midpoint], val, steps)
+        return bSearch(vals[:midpoint], val, steps)
     elif val > vals[midpoint]:
         steps += 1
-        return binarySearch(vals[midpoint:], val, steps)
+        return bSearch(vals[midpoint:], val, steps)

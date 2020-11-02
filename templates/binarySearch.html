@@ -1,4 +1,60 @@
 {% extends "layout.html" %}
 
+{% block title %}
+  Binary Search
+{% endblock %}
+
 {% block main %}
+  <div class = "row">
+    <div class="col text-center">
+      <div class="title">
+        Less is more
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6" style="text-align: left;">
+      <text>Binary Search is more or less the algorithm you use when searching for a name in a dictionary.
+            Start by checking the middle element of the list. If this is our value, then we are done and we can return True. If our desired value is less than this midpoint, then we can disregard the latter half of the list
+            and only keep the former. The opposite applies for if the value is greater than the midpoint. We then take this half of the list and perform the same steps on it again:
+            access and check the midpoint, get the first half of the list if our desired value is less than the midpoint, and the second if the opposite. Repeat this until we have a list of length 1. If the element in this list is our
+            value, return True. If not, return False. Because of the repetition in steps on smaller divisions of the same collection of data, binary search lends itself well to a recursive implementation. One crucial thing to note is
+            that <b>the list must be sorted for the searching algorithm to work.</b></text>
+    </div>
+    <div class="col-6" style="text-align: left;">
+      <text>Graphs go here</text>
+    </div>
+  </div>
+  <form action="/binarySearch" method="post" name="elements" id="elements">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" form="elements" name="bSearchInput" id="bSearchInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" form="elements" name="bSearchVal" id="bSearchVal" rows="1" cols="20" oninput="this.value = this.value.replace(/\n/g,'')" form="elements" placeholder="Enter number to find"></textarea>
+            </div>
+        </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col">
+      <button type="submit" class="btn btn-outline-info" form="elements" name="searchBtn" id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {% if searchDone %}
+        {% if steps ==  -1 %}
+          Invalid list
+        {% elif steps == False %}
+          Item not found
+        {% else %}
+          {{ res }} found in {{ steps }} steps
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

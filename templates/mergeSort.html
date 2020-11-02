@@ -5,31 +5,35 @@
 {% endblock %}
 
 {% block main %}
-<div class = "row">
-  <div class="col text-center">
-    <div class="title">
-      It's all coming together
+  <div class = "row">
+    <div class="col text-center">
+      <div class="title">
+        It's all coming together
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-6" style="text-align: left;">
-    <text>Merge Sort is a divide and conquer algorithm. It works in two main phases:
-      the divide phase, where the list is repeatedly halved until each element is in its own sublist with length 1,
-      and the merge phase, where these smaller sublists are combined together in sorted order. This merging process
-      repeats until we are left with the original list in sorted order.
-      Because the same algorithm is repeated over smaller and smaller divisions of the list, Merge Sort is recursive in nature.</text>
+  <div class="row">
+    <div class="col-6" style="text-align: left;">
+      <text>Merge Sort is a divide and conquer algorithm. It works in two main phases:
+        the divide phase, where the list is repeatedly halved until each element is in its own sublist with length 1,
+        and the merge phase, where these smaller sublists are combined together in sorted order. This merging process
+        repeats until we are left with the original list in sorted order.
+        Because the same algorithm is repeated over smaller and smaller divisions of the list, Merge Sort is recursive in nature.</text>
+    </div>
+    <div class="col-6" style="text-align: left;">
+      <text>Graphs go here</text>
+    </div>
   </div>
-  <div class="col-6" style="text-align: left;">
-    <text>Graphs go here</text>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <textarea class="form-control" id="mSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+        </div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col">
-      <div class="form-group">
-        <textarea class="form-control" id="mSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
-      </div>
+  <div class="row">
+    <div class="col">
       <button type="button" class="btn btn-outline-info">Sort</button>
+    </div>
   </div>
-</div>
 {% endblock %}

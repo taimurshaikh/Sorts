@@ -47,30 +47,42 @@ def searches():
     if request.method == 'GET':
         return render_template("searches.html")
 
-@app.route("/bSort", methods=["GET", "POST"])
-def bSort():
+@app.route("/bubbleSort", methods=["GET", "POST"])
+def bubbleSort():
     '''Bubble sort page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("bubbleSort.html")
 
-@app.route("/mSort", methods=["GET", "POST"])
-def mSort():
+@app.route("/mergeSort", methods=["GET", "POST"])
+def mergeSort():
     '''Merge sort page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("mergeSort.html")
 
-@app.route("/lSearch", methods=["GET", "POST"])
-def lSearch():
+@app.route("/linearSearch", methods=["GET", "POST"])
+def linearSearch():
     '''Linear Search page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("linearSearch.html")
 
-@app.route("/bSearch", methods=["GET", "POST"])
-def bSearch():
+@app.route("/binarySearch", methods=["GET", "POST"])
+def binarySearch():
     '''Binary Search page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("binarySearch.html")
+    # List of numbers that user inputted
+    lst = request.form.get("bSearchInput").split(",")
+    # Process list of values
+    while "" in lst:
+        lst.remove("")
+    #lst = x) for x in lst]
+    # Value to search for
+    val = request.form.get("bSearchVal")
+    # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    steps = bSearch(lst, val)
+
+    return render_template("binarySearch.html", searchDone=True, res=val, steps=steps)
