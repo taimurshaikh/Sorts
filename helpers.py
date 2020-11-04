@@ -1,8 +1,10 @@
 def isSorted(lst):
+    # If not a valid list, this will be handled by the isNumList() functon
+    if not isNumList(lst):
+        return True
+
     # Check if list is sorted or not
     for i in range(len(lst)):
-        if not i:
-            continue
         if lst[i] < lst[i-1]:
             return False
     return True
@@ -14,6 +16,9 @@ def isNumList(lst):
         except:
             return False
     return True
+
+def convertToInts(lst):
+    return [int(x) for x in lst]
 
 def bSort(vals):
     if not isNumList:
@@ -29,8 +34,9 @@ def bSort(vals):
                 vals[j-1], vals[j] = vals[j], vals[j-1]
     return (vals, steps)
 
-def mSort(vals, steps=0):
-    steps += 1
+# Temporary steps implementation with global variable
+mSortSteps = 0
+def mSort(vals):
     def merge(l1, l2):
         res = []
         while l1 and l2:
@@ -39,12 +45,15 @@ def mSort(vals, steps=0):
             else:
                 res.append(l1.pop(0))
         while l1:
+
             res.append(l1.pop(0))
         while l2:
+
             res.append(l2.pop(0))
         return res
     if not isNumList(vals):
         return -1
+
     if len(vals) == 1:
         return vals
     midpoint = len(vals) // 2
@@ -53,8 +62,10 @@ def mSort(vals, steps=0):
     return merge(firstHalf, secondHalf)
 
 def lSearch(vals, val):
-    if not isNumList:
+    if not isNumList(vals) or not isNumList(list(val)):
         return -1
+    vals = convertToInts(vals)
+    val = int(val)
     steps = 0
     for i in vals:
         steps += 1
@@ -63,8 +74,11 @@ def lSearch(vals, val):
     return False
 
 def bSearch(vals, val, steps=0):
-    if not isSorted(vals) or not isNumList(vals):
+    if not isSorted(vals):
         return -1
+    if not isNumList(vals):
+        return -2
+    val = int(val)
     if len(vals) == 1:
         if vals[0] == val:
             steps += 1
@@ -80,3 +94,5 @@ def bSearch(vals, val, steps=0):
     elif val > vals[midpoint]:
         steps += 1
         return bSearch(vals[midpoint:], val, steps)
+res = bSearch([1,2,4,232], 4)
+print(res)

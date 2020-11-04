@@ -25,21 +25,36 @@
       <text>Graphs go here</text>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-        <div class="form-group">
-          <textarea class="form-control" id="lSearchInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+  <form action="/linearSearch" method="post" name="elements" id="elements">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" form="elements" name="lSearchInput" id="lSearchInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" form="elements" name="lSearchVal" id="lSearchVal" rows="1" cols="20" oninput="this.value = this.value.replace(/\n/g,'')" form="elements" placeholder="Enter number to find"></textarea>
+            </div>
         </div>
     </div>
+  </form>
+  <div class="row">
     <div class="col">
-        <div class="form-group">
-          <textarea class="form-control" id="lSearchVal" rows="1" cols="20" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter number to find"></textarea>
-        </div>
+      <button type="submit" class="btn btn-outline-info" form="elements" name="searchBtn" id="searchBtn">Search</button>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <button type="button" class="btn btn-outline-info">Search</button>
+      {% if searchDone %}
+        {% if steps == -1 %}
+          Invalid list/value
+        {% elif steps == False %}
+          Item not found
+        {% else %}
+          {{ val }} found in {{ steps }} steps
+        {% endif %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}

@@ -48,11 +48,13 @@
     <div class="col">
       {% if searchDone %}
         {% if steps ==  -1 %}
-          Invalid list
+          List must be sorted
+        {% elif steps == -2 %}
+          Invalid list/value
         {% elif steps == False %}
           Item not found
         {% else %}
-          {{ res }} found in {{ steps }} steps
+          {{ val }} found in {{ steps }} steps
         {% endif %}
       {% endif %}
     </div>

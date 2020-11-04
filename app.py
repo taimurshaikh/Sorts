@@ -54,12 +54,40 @@ def bubbleSort():
     if request.method == 'GET':
         return render_template("bubbleSort.html")
 
+    # POST REQUEST
+    # List of numbers that user inputted
+    lst = request.form.get("bSortInput").split(",")
+    # Process list of values
+    #while " " in lst:
+    #    lst.remove(" ")
+    while "" in lst:
+        lst.remove("")
+    lst = convertToInts(lst)
+    # Perform bubble sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    (res, steps) = bSort(lst)
+
+    return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps)
+
 @app.route("/mergeSort", methods=["GET", "POST"])
 def mergeSort():
     '''Merge sort page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("mergeSort.html")
+
+    # POST REQUEST
+    # List of numbers that user inputted
+    lst = request.form.get("mSortInput").split(",")
+    # Process list of values
+    while " " in lst:
+        lst.remove(" ")
+    while "" in lst:
+        lst.remove("")
+    lst = convertToInts(lst)
+    # Perform merge sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    res = mSort(lst)
+
+    return render_template("mergeSort.html", sortDone=True, res=res)
 
 @app.route("/linearSearch", methods=["GET", "POST"])
 def linearSearch():
@@ -68,21 +96,39 @@ def linearSearch():
     if request.method == 'GET':
         return render_template("linearSearch.html")
 
+    # POST REQUEST
+    # List of numbers that user inputted
+    lst = request.form.get("lSearchInput").split(",")
+    # Process list of values
+    while " " in lst:
+        lst.remove(" ")
+    while "" in lst:
+        lst.remove("")
+    # Value to search for
+    val = request.form.get("lSearchVal")
+    # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    steps = lSearch(lst, val)
+
+    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps)
+
 @app.route("/binarySearch", methods=["GET", "POST"])
 def binarySearch():
     '''Binary Search page'''
     # GET REQUEST
     if request.method == 'GET':
         return render_template("binarySearch.html")
+
+    # POST REQUEST
     # List of numbers that user inputted
     lst = request.form.get("bSearchInput").split(",")
     # Process list of values
+    while " " in lst:
+        lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    #lst = x) for x in lst]
     # Value to search for
     val = request.form.get("bSearchVal")
     # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = bSearch(lst, val)
 
-    return render_template("binarySearch.html", searchDone=True, res=val, steps=steps)
+    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps)

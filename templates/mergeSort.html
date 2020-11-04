@@ -24,16 +24,29 @@
       <text>Graphs go here</text>
     </div>
   </div>
+  <form action="/mergeSort" method="post" name="elements" id="elements">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" form="elements" name="mSortInput" id="mSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+            </div>
+        </div>
+    </div>
+  </form>
   <div class="row">
     <div class="col">
-        <div class="form-group">
-          <textarea class="form-control" id="mSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
-        </div>
+      <button type="submit" class="btn btn-outline-info" form="elements" name="searchBtn" id="searchBtn">Sort</button>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <button type="button" class="btn btn-outline-info">Sort</button>
+      {% if sortDone %}
+        {% if steps ==  -1 %}
+          Invalid list
+        {% else %}
+          {{ res }} sorted in no steps
+        {% endif %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}
