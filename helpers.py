@@ -5,6 +5,8 @@ def isSorted(lst):
 
     # Check if list is sorted or not
     for i in range(len(lst)):
+        if not i:
+            continue
         if lst[i] < lst[i-1]:
             return False
     return True
@@ -94,5 +96,3 @@ def bSearch(vals, val, steps=0):
     elif val > vals[midpoint]:
         steps += 1
         return bSearch(vals[midpoint:], val, steps)
-res = bSearch([1,2,4,232], 4)
-print(res)

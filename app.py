@@ -47,7 +47,7 @@ def searches():
     if request.method == 'GET':
         return render_template("searches.html")
 
-@app.route("/bubbleSort", methods=["GET", "POST"])
+@app.route("/sorts/bubbleSort", methods=["GET", "POST"])
 def bubbleSort():
     '''Bubble sort page'''
     # GET REQUEST
@@ -68,7 +68,7 @@ def bubbleSort():
 
     return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps)
 
-@app.route("/mergeSort", methods=["GET", "POST"])
+@app.route("/sorts/mergeSort", methods=["GET", "POST"])
 def mergeSort():
     '''Merge sort page'''
     # GET REQUEST
@@ -89,7 +89,7 @@ def mergeSort():
 
     return render_template("mergeSort.html", sortDone=True, res=res)
 
-@app.route("/linearSearch", methods=["GET", "POST"])
+@app.route("/searches/linearSearch", methods=["GET", "POST"])
 def linearSearch():
     '''Linear Search page'''
     # GET REQUEST
@@ -108,10 +108,11 @@ def linearSearch():
     val = request.form.get("lSearchVal")
     # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = lSearch(lst, val)
+    if steps:
+        ind = lst.index(val)
+    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind)
 
-    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps)
-
-@app.route("/binarySearch", methods=["GET", "POST"])
+@app.route("/searches/binarySearch", methods=["GET", "POST"])
 def binarySearch():
     '''Binary Search page'''
     # GET REQUEST
@@ -126,9 +127,12 @@ def binarySearch():
         lst.remove(" ")
     while "" in lst:
         lst.remove("")
+    lst = convertToInts(lst)
     # Value to search for
     val = request.form.get("bSearchVal")
     # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = bSearch(lst, val)
-
-    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps)
+    if steps:
+        print(lst)
+        ind = lst.index(int(val))
+    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps, ind=ind)

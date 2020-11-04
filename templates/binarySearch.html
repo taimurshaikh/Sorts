@@ -25,7 +25,7 @@
       <text>Graphs go here</text>
     </div>
   </div>
-  <form action="/binarySearch" method="post" name="elements" id="elements">
+  <form action="/searches/binarySearch" method="post" name="elements" id="elements">
     <div class="row">
         <div class="col">
             <div class="form-group">
@@ -54,7 +54,7 @@
         {% elif steps == False %}
           Item not found
         {% else %}
-          {{ val }} found in {{ steps }} steps
+          {{ val }} found in {{ steps }} steps at index {{ ind }}
         {% endif %}
       {% endif %}
     </div>
