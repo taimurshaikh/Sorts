@@ -54,7 +54,7 @@
         {% elif steps == False %}
           Item not found
         {% else %}
-          {{ val }} found in {{ steps }} steps at index {{ ind }}
+          {{ val }} found in {{ steps }} steps at index {{ ind }} and took {{ timeTaken }} ns
         {% endif %}
       {% endif %}
     </div>
@@ -80,7 +80,7 @@
           pointBackgroundColor:"#AC3B61",
           pointRadius:0
         }, {
-          label:'Best case O(1)',
+          label:'Best case Ω(1)',
           data:[1,1,1,1,1,1,1,1,1,1,1],
           fill:false,
           borderColor:"cyan",

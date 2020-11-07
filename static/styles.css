@@ -92,8 +92,8 @@ main
 
 main img
 {
-    /* constrain images on small screens */
-    max-width: 100%;
+    max-width:15%;
+    margin:auto;
 }
 
 .center

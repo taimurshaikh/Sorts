@@ -27,8 +27,16 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
-              <textarea class="form-control" form="elements" name="bSortInput" id="bSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort"></textarea>
+              <textarea class="form-control" form="elements" name="bSortInput" id="bSortInput" rows="1" cols="50" oninput="this.value = this.value.replace(/\n/g,'')" placeholder="Enter comma separated numbers to sort/range"></textarea>
             </div>
+        </div>
+        <div class="col">
+          <div class="form-check-inline" style="margin-top:6%;">
+            <input class="form-check-input" type="checkbox" name="random" id="random" value="random">
+            <label class="form-check-label" for="random">
+              Generate random array
+            </label>
+          </div>
         </div>
     </div>
     <div class="row">
@@ -55,7 +63,7 @@
         {% if steps ==  -1 %}
           Invalid list
         {% else %}
-          {{ res }} sorted in {{ steps }} steps
+          {{ res }} sorted in {{ steps }} steps and took {{ timeTaken }} ns
         {% endif %}
       {% endif %}
     </div>
@@ -75,7 +83,7 @@
           pointBackgroundColor:"#AC3B61",
           pointRadius:0
         }, {
-          label:'Best case O(n)',
+          label:'Best case Ω(n)',
           data:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
           fill:false,
           borderColor:"cyan",

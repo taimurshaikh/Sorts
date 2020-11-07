@@ -4,7 +4,9 @@ from tempfile import mkdtemp
 
 # Sorting and searching algorithms from other program
 from helpers import *
-
+from datetime import datetime
+import time
+import random
 # Configure application
 app = Flask(__name__)
 
@@ -55,19 +57,24 @@ def bubbleSort():
         return render_template("bubbleSort.html")
 
     # POST REQUEST
+    # First we must check if the user wants to generate a random array
+    random = request.form.get("random")
     # List of numbers that user inputted
     lst = request.form.get("bSortInput").split(",")
     # Process list of values
-    #while " " in lst:
-    #    lst.remove(" ")
-    while "" in lst:
-        lst.remove("")
-    # Perform bubble sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    # Use this to track how much time the algorithm takes
+    startTime = time.time_ns()
+    # Perform bubble sort on user data and store information about how many steps it took and the first occuring index of the value
     (res, steps) = bSort(lst)
+    endTime = time.time_ns()
+    timeTaken = endTime - startTime
+    if not timeTaken:
+        # Making timeTaken equal the string we want to display if the algorithm was really fast
+        timeTaken = "less than 1"
     order = request.form.get("order")
     if order == "descending":
         res = res[::-1]
-    return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps)
+    return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps, timeTaken=timeTaken)
 
 @app.route("/sorts/mergeSort", methods=["GET", "POST"])
 def mergeSort():
@@ -88,12 +95,19 @@ def mergeSort():
         lst = convertToInts(lst)
     except:
         res = -1
-    # Perform merge sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
+    # Use this to track how much time the algorithm takes
+    startTime = time.time_ns()
+    # Perform mergesort sort on user data
     res = mSort(lst)
+    endTime = time.time_ns()
+    timeTaken = endTime - startTime
+    if not timeTaken:
+        # Making timeTaken equal the string we want to display if the algorithm was really fast
+        timeTaken = "less than 1"
     order = request.form.get("order")
     if order == "descending":
         res = res[::-1]
-    return render_template("mergeSort.html", sortDone=True, res=res)
+    return render_template("mergeSort.html", sortDone=True, res=res, timeTaken=timeTaken)
 
 @app.route("/searches/linearSearch", methods=["GET", "POST"])
 def linearSearch():
@@ -112,12 +126,17 @@ def linearSearch():
         lst.remove("")
     # Value to search for
     val = request.form.get("lSearchVal")
+    startTime = time.time_ns()
     # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = lSearch(lst, val)
+    endTime = time.time_ns()
+    timeTaken = endTime - startTime
+    if not timeTaken:
+        timeTaken = "less than 1"
     ind = None
     if steps != False and steps > 0:
         ind = lst.index(val)
-    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind)
+    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
 
 @app.route("/searches/binarySearch", methods=["GET", "POST"])
 def binarySearch():
@@ -136,10 +155,15 @@ def binarySearch():
         lst.remove("")
     # Value to search for
     val = request.form.get("bSearchVal")
+    startTime = time.time_ns()
     # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = bSearch(lst, val)
+    endTime = time.time_ns()
+    timeTaken = endTime - startTime
+    if not timeTaken:
+        timeTaken = "less than 1"
     ind = None
     if steps != False and steps >= 0:
         lst = convertToInts(lst)
         ind = lst.index(int(val))
-    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps, ind=ind)
+    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
