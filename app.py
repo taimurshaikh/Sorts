@@ -62,7 +62,6 @@ def bubbleSort():
     #    lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    lst = convertToInts(lst)
     # Perform bubble sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     (res, steps) = bSort(lst)
 
@@ -83,10 +82,12 @@ def mergeSort():
         lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    lst = convertToInts(lst)
+    try:
+        lst = convertToInts(lst)
+    except:
+        res = -1
     # Perform merge sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     res = mSort(lst)
-
     return render_template("mergeSort.html", sortDone=True, res=res)
 
 @app.route("/searches/linearSearch", methods=["GET", "POST"])
@@ -108,7 +109,8 @@ def linearSearch():
     val = request.form.get("lSearchVal")
     # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = lSearch(lst, val)
-    if steps:
+    ind = None
+    if steps != False and steps > 0:
         ind = lst.index(val)
     return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind)
 
@@ -127,12 +129,12 @@ def binarySearch():
         lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    lst = convertToInts(lst)
     # Value to search for
     val = request.form.get("bSearchVal")
     # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = bSearch(lst, val)
-    if steps:
-        print(lst)
+    ind = None
+    if steps != False and steps >= 0:
+        lst = convertToInts(lst)
         ind = lst.index(int(val))
     return render_template("binarySearch.html", searchDone=True, val=val, steps=steps, ind=ind)

@@ -20,7 +20,7 @@
       value was put in the correct position.</text>
     </div>
     <div class="col-6" style="text-align: left;">
-      <text>Graphs go here</text>
+      <canvas id="bSortGraph"></canvas>
     </div>
   </div>
   <form action="/sorts/bubbleSort" method="post" name="elements" id="elements">
@@ -48,4 +48,32 @@
       {% endif %}
     </div>
   </div>
+  <script>
+    var bSortGraph = document.getElementById('bSortGraph').getContext('2d');
+    var graph = new Chart(bSortGraph, {
+      type:'line',
+      data:{
+        xAxisID:"Elements",
+        yAxisID:"Comparisons",
+        datasets:[{
+          label:'Worst case O(n^2)',
+          data:[0,1,4,9,16,25,36,49,64,81,100],
+          fill:false,
+          borderColor:"#AC3B61",
+          pointBackgroundColor:"#AC3B61",
+          pointRadius:0
+        }, {
+          label:'Best case O(n)',
+          data:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          fill:false,
+          borderColor:"cyan",
+          pointBackgroundColor:"cyan",
+          pointRadius:0
+        }
+        ],
+        labels:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      },
+      options:{}
+    });
+  </script>
 {% endblock %}

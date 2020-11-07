@@ -14,7 +14,7 @@
   </div>
   <div class="row">
     <div class="col-6" style="text-align: left;">
-      <text>Binary Search is more or less the algorithm you use when searching for a name in a dictionary.
+      <text class="text-responsive">Binary Search is more or less the algorithm you use when searching for a name in a dictionary.
             Start by checking the middle element of the list. If this is our value, then we are done and we can return True. If our desired value is less than this midpoint, then we can disregard the latter half of the list
             and only keep the former. The opposite applies for if the value is greater than the midpoint. We then take this half of the list and perform the same steps on it again:
             access and check the midpoint, get the first half of the list if our desired value is less than the midpoint, and the second if the opposite. Repeat this until we have a list of length 1. If the element in this list is our
@@ -22,7 +22,7 @@
             that <b>the list must be sorted for the searching algorithm to work.</b></text>
     </div>
     <div class="col-6" style="text-align: left;">
-      <text>Graphs go here</text>
+      <canvas id="bSearchGraph"></canvas>
     </div>
   </div>
   <form action="/searches/binarySearch" method="post" name="elements" id="elements">
@@ -59,4 +59,38 @@
       {% endif %}
     </div>
   </div>
+  <script>
+    var xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var yAxis = [];
+    for (const n of xAxis)
+    {
+      yAxis.push(Math.log(n));
+    }
+    var bSearchGraph = document.getElementById('bSearchGraph').getContext('2d');
+    var graph = new Chart(bSearchGraph, {
+      type:'line',
+      data:{
+        xAxisID:"Elements",
+        yAxisID:"Comparisons",
+        datasets:[{
+          label:'Worst case O(log n)',
+          data:yAxis,
+          fill:false,
+          borderColor:"#AC3B61",
+          pointBackgroundColor:"#AC3B61",
+          pointRadius:0
+        }, {
+          label:'Best case O(1)',
+          data:[1,1,1,1,1,1,1,1,1,1,1],
+          fill:false,
+          borderColor:"cyan",
+          pointBackgroundColor:"cyan",
+          pointRadius:0
+        }
+        ],
+        labels:xAxis
+      },
+      options:{}
+    });
+  </script>
 {% endblock %}

@@ -22,7 +22,7 @@
             every element, but in the case of large amounts of data, the search becomes more expensive to execute.</text>
     </div>
     <div class="col-6" style="text-align: left;">
-      <text>Graphs go here</text>
+      <canvas id="lSearchGraph"></canvas>
     </div>
   </div>
   <form action="/searches/linearSearch" method="post" name="elements" id="elements">
@@ -57,4 +57,33 @@
       {% endif %}
     </div>
   </div>
+  <script>
+    var xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var lSearchGraph = document.getElementById('lSearchGraph').getContext('2d');
+    var graph = new Chart(lSearchGraph, {
+      type:'line',
+      data:{
+        xAxisID:"Elements",
+        yAxisID:"Comparisons",
+        datasets:[{
+          label:'Worst case O(n)',
+          data:xAxis,
+          fill:false,
+          borderColor:"#AC3B61",
+          pointBackgroundColor:"#AC3B61",
+          pointRadius:0
+        }, {
+          label:'Best case O(1)',
+          data:[1,1,1,1,1,1,1,1,1,1,1],
+          fill:false,
+          borderColor:"cyan",
+          pointBackgroundColor:"cyan",
+          pointRadius:0
+        }
+        ],
+        labels:xAxis
+      },
+      options:{}
+    });
+  </script>
 {% endblock %}

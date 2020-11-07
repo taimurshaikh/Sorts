@@ -1,13 +1,12 @@
+import random
 def isSorted(lst):
-    # If not a valid list, this will be handled by the isNumList() functon
-    if not isNumList(lst):
-        return True
 
     # Check if list is sorted or not
     for i in range(len(lst)):
         if not i:
             continue
         if lst[i] < lst[i-1]:
+            print(f"{lst[i]} less than {lst[1+1]}")
             return False
     return True
 
@@ -23,8 +22,9 @@ def convertToInts(lst):
     return [int(x) for x in lst]
 
 def bSort(vals):
-    if not isNumList:
-        return -1
+    if not isNumList(vals):
+        return -1, -1
+    vals = convertToInts(vals)
     steps = 0
     length = len(vals)
     for i in range(length):
@@ -64,7 +64,7 @@ def mSort(vals):
     return merge(firstHalf, secondHalf)
 
 def lSearch(vals, val):
-    if not isNumList(vals) or not isNumList(list(val)):
+    if not isNumList(vals) or not isNumList([val]):
         return -1
     vals = convertToInts(vals)
     val = int(val)
@@ -76,10 +76,12 @@ def lSearch(vals, val):
     return False
 
 def bSearch(vals, val, steps=0):
+    if not isNumList(vals) or not isNumList([val]):
+        return -2
+    vals = convertToInts(vals)
     if not isSorted(vals):
         return -1
-    if not isNumList(vals):
-        return -2
+
     val = int(val)
     if len(vals) == 1:
         if vals[0] == val:
