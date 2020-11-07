@@ -22,7 +22,7 @@ def convertToInts(lst):
     return [int(x) for x in lst]
 
 def bSort(vals):
-    if not isNumList(vals):
+    if not isNumList(vals) or not vals:
         return -1, -1
     vals = convertToInts(vals)
     steps = 0
@@ -39,6 +39,8 @@ def bSort(vals):
 # Temporary steps implementation with global variable
 mSortSteps = 0
 def mSort(vals):
+    if not vals:
+        return -1
     def merge(l1, l2):
         res = []
         while l1 and l2:

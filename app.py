@@ -64,7 +64,9 @@ def bubbleSort():
         lst.remove("")
     # Perform bubble sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     (res, steps) = bSort(lst)
-
+    order = request.form.get("order")
+    if order == "descending":
+        res = res[::-1]
     return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps)
 
 @app.route("/sorts/mergeSort", methods=["GET", "POST"])
@@ -88,6 +90,9 @@ def mergeSort():
         res = -1
     # Perform merge sort on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     res = mSort(lst)
+    order = request.form.get("order")
+    if order == "descending":
+        res = res[::-1]
     return render_template("mergeSort.html", sortDone=True, res=res)
 
 @app.route("/searches/linearSearch", methods=["GET", "POST"])
