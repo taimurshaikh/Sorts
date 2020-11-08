@@ -58,22 +58,35 @@ def bubbleSort():
 
     # POST REQUEST
     # First we must check if the user wants to generate a random array
-    random = request.form.get("random")
+    isRandom = request.form.get("random")
     # List of numbers that user inputted
     lst = request.form.get("bSortInput").split(",")
     # Process list of values
+    while "" in lst:
+        lst.remove("")
+    # If random array, then the user must enter 3 values: length,startrange,endrange
+    if isRandom == "random":
+        if len(lst) != 3 or not isNumList(lst) or not lst:
+            return render_template("bubbleSort.html", sortDone=True, steps=-1)
+        lst = convertToInts(lst)
+        length, start, end = lst[0], lst[1], lst[2]
+        print(length)
+        if end < start:
+            return render_template("bubbleSort.html", sortDone=True, steps=-1)
+        randomLst = [random.randrange(start,end) for x in range(length)]
+        lst = randomLst
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform bubble sort on user data and store information about how many steps it took and the first occuring index of the value
     (res, steps) = bSort(lst)
+    order = request.form.get("order")
+    if order == "descending" and not isinstance(res, int):
+        res = res[::-1]
     endTime = time.time_ns()
     timeTaken = endTime - startTime
     if not timeTaken:
         # Making timeTaken equal the string we want to display if the algorithm was really fast
         timeTaken = "less than 1"
-    order = request.form.get("order")
-    if order == "descending":
-        res = res[::-1]
     return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps, timeTaken=timeTaken)
 
 @app.route("/sorts/mergeSort", methods=["GET", "POST"])
@@ -84,6 +97,8 @@ def mergeSort():
         return render_template("mergeSort.html")
 
     # POST REQUEST
+    # First we must check if the user wants to generate a random array
+    isRandom = request.form.get("random")
     # List of numbers that user inputted
     lst = request.form.get("mSortInput").split(",")
     # Process list of values
@@ -95,6 +110,17 @@ def mergeSort():
         lst = convertToInts(lst)
     except:
         res = -1
+    # If random array, then the user must enter 3 values: length,startrange,endrange
+    if isRandom == "random":
+        if len(lst) != 3 or not isNumList(lst) or not lst:
+            return render_template("mergeSort.html", sortDone=True, steps=-1)
+        lst = convertToInts(lst)
+        length, start, end = lst[0], lst[1], lst[2]
+        print(length)
+        if end < start:
+            return render_template("mergeSort.html", sortDone=True, steps=-1)
+        randomLst = [random.randrange(start,end) for x in range(length)]
+        lst = randomLst
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform mergesort sort on user data
@@ -105,7 +131,7 @@ def mergeSort():
         # Making timeTaken equal the string we want to display if the algorithm was really fast
         timeTaken = "less than 1"
     order = request.form.get("order")
-    if order == "descending":
+    if order == "descending" and not isinstance(res, int):
         res = res[::-1]
     return render_template("mergeSort.html", sortDone=True, res=res, timeTaken=timeTaken)
 
@@ -117,6 +143,8 @@ def linearSearch():
         return render_template("linearSearch.html")
 
     # POST REQUEST
+    # First we must check if the user wants to generate a random array
+    isRandom = request.form.get("random")
     # List of numbers that user inputted
     lst = request.form.get("lSearchInput").split(",")
     # Process list of values
@@ -126,6 +154,17 @@ def linearSearch():
         lst.remove("")
     # Value to search for
     val = request.form.get("lSearchVal")
+    # If random array, then the user must enter 3 values: length,startrange,endrange
+    if isRandom == "random":
+        if len(lst) != 3 or not isNumList(lst) or not lst:
+            return render_template("linearSearch.html", sortDone=True, steps=-1)
+        lst = convertToInts(lst)
+        length, start, end = lst[0], lst[1], lst[2]
+        print(length)
+        if end < start:
+            return render_template("linearSearch.html", sortDone=True, steps=-1)
+        randomLst = [random.randrange(start,end) for x in range(length)]
+        lst = randomLst
     startTime = time.time_ns()
     # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = lSearch(lst, val)
@@ -134,7 +173,7 @@ def linearSearch():
     if not timeTaken:
         timeTaken = "less than 1"
     ind = None
-    if steps != False and steps > 0:
+    if steps != False and steps != False and steps > 0:
         ind = lst.index(val)
     return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
 
