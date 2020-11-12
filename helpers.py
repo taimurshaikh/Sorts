@@ -83,7 +83,6 @@ def bSearch(vals, val, steps=0):
     vals = convertToInts(vals)
     if not isSorted(vals):
         return -1
-
     val = int(val)
     if len(vals) == 1:
         if vals[0] == val:

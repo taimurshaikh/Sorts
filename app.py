@@ -7,6 +7,9 @@ from helpers import *
 from datetime import datetime
 import time
 import random
+import csv
+import os
+
 # Configure application
 app = Flask(__name__)
 
@@ -57,24 +60,40 @@ def bubbleSort():
         return render_template("bubbleSort.html")
 
     # POST REQUEST
-    # First we must check if the user wants to generate a random array
-    isRandom = request.form.get("random")
-    # List of numbers that user inputted
-    lst = request.form.get("bSortInput").split(",")
-    # Process list of values
-    while "" in lst:
-        lst.remove("")
-    # If random array, then the user must enter 3 values: length,startrange,endrange
-    if isRandom == "random":
-        if len(lst) != 3 or not isNumList(lst) or not lst:
-            return render_template("bubbleSort.html", sortDone=True, steps=-1)
-        lst = convertToInts(lst)
-        length, start, end = lst[0], lst[1], lst[2]
-        print(length)
-        if end < start:
-            return render_template("bubbleSort.html", sortDone=True, steps=-1)
-        randomLst = [random.randrange(start,end) for x in range(length)]
-        lst = randomLst
+
+    # If user wants to input a file
+    chooseFile = request.form.get("csvFile")
+    if chooseFile:
+        if chooseFile[-3:] != "csv":
+            return render_template("bubbleSort.html", sortDone=True, steps=-2)
+        with open(os.path.abspath(chooseFile)) as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                if i > 0 :
+                    return render_template("bubbleSort.html", sortDone=True, steps=-2)
+                if not isNumList(row):
+                    return render_template("bubbleSort.html", sortDone=True, steps=-2)
+                lst = convertToInts(row)
+
+    else:
+        # List of numbers that user inputted
+        lst = request.form.get("bSortInput").split(",")
+        # Process list of values
+        while "" in lst:
+            lst.remove("")
+
+        isRandom = request.form.get("random")
+        # If random array, then the user must enter 3 values: length,startrange,endrange
+        if isRandom == "random":
+            if len(lst) != 3 or not isNumList(lst) or not lst:
+                return render_template("bubbleSort.html", sortDone=True, steps=-1)
+            lst = convertToInts(lst)
+            length, start, end = lst[0], lst[1], lst[2]
+            if end < start:
+                return render_template("bubbleSort.html", sortDone=True, steps=-1)
+            randomLst = [random.randrange(start,end) for x in range(length)]
+            lst = randomLst
+
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform bubble sort on user data and store information about how many steps it took and the first occuring index of the value
@@ -87,6 +106,7 @@ def bubbleSort():
     if not timeTaken:
         # Making timeTaken equal the string we want to display if the algorithm was really fast
         timeTaken = "less than 1"
+
     return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps, timeTaken=timeTaken)
 
 @app.route("/sorts/mergeSort", methods=["GET", "POST"])
@@ -97,30 +117,45 @@ def mergeSort():
         return render_template("mergeSort.html")
 
     # POST REQUEST
-    # First we must check if the user wants to generate a random array
-    isRandom = request.form.get("random")
-    # List of numbers that user inputted
-    lst = request.form.get("mSortInput").split(",")
-    # Process list of values
-    while " " in lst:
-        lst.remove(" ")
-    while "" in lst:
-        lst.remove("")
-    try:
-        lst = convertToInts(lst)
-    except:
-        res = -1
-    # If random array, then the user must enter 3 values: length,startrange,endrange
-    if isRandom == "random":
-        if len(lst) != 3 or not isNumList(lst) or not lst:
-            return render_template("mergeSort.html", sortDone=True, steps=-1)
-        lst = convertToInts(lst)
-        length, start, end = lst[0], lst[1], lst[2]
-        print(length)
-        if end < start:
-            return render_template("mergeSort.html", sortDone=True, steps=-1)
-        randomLst = [random.randrange(start,end) for x in range(length)]
-        lst = randomLst
+    # If user wants to input a file
+    chooseFile = request.form.get("csvFile")
+    if chooseFile:
+        if chooseFile[-3:] != "csv":
+            return render_template("mergeSort.html", sortDone=True, steps=-2)
+        with open(os.path.abspath(chooseFile)) as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                if i > 0 :
+                    return render_template("mergeSort.html", sortDone=True, steps=-2)
+                if not isNumList(row):
+                    return render_template("mergeSort.html", sortDone=True, steps=-2)
+                lst = convertToInts(row)
+    else:
+        # First we must check if the user wants to generate a random array
+        isRandom = request.form.get("random")
+        # List of numbers that user inputted
+        lst = request.form.get("mSortInput").split(",")
+        # Process list of values
+        while " " in lst:
+            lst.remove(" ")
+        while "" in lst:
+            lst.remove("")
+        try:
+            lst = convertToInts(lst)
+        except:
+            res = -1
+
+        # If random array, then the user must enter 3 values: length,startrange,endrange
+        if isRandom == "random":
+            if len(lst) != 3 or not isNumList(lst) or not lst:
+                return render_template("mergeSort.html", sortDone=True, res=-1)
+            lst = convertToInts(lst)
+            length, start, end = lst[0], lst[1], lst[2]
+            if end < start:
+                return render_template("mergeSort.html", sortDone=True, steps=-1)
+            randomLst = [random.randrange(start,end) for x in range(length)]
+            lst = randomLst
+
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform mergesort sort on user data
@@ -143,7 +178,7 @@ def linearSearch():
         return render_template("linearSearch.html")
 
     # POST REQUEST
-    # First we must check if the user wants to generate a random array
+    # Check if the user wants to generate a random array
     isRandom = request.form.get("random")
     # List of numbers that user inputted
     lst = request.form.get("lSearchInput").split(",")
