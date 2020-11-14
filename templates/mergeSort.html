@@ -65,13 +65,13 @@
   </form>
   <div class="row">
     <div class="col">
-      {% if sortDone %}
+      {% if done %}
         {% if res ==  -1 %}
           Invalid list/range
         {% elif res == -2 %}
           Invalid file
         {% else %}
-          {{ res }} sorted in no steps and took {{ timeTaken }} ns
+          {{ res }} sorted in {{ steps }} steps and took {{ timeTaken }} ns
         {% endif %}
       {% endif %}
     </div>

@@ -1,6 +1,5 @@
-import random
+import random, os, csv
 def isSorted(lst):
-
     # Check if list is sorted or not
     for i in range(len(lst)):
         if not i:
@@ -21,6 +20,16 @@ def isNumList(lst):
 def convertToInts(lst):
     return [int(x) for x in lst]
 
+def validateFile(filename):
+    if filename[-3:] != "csv":
+        return -2
+    with open(os.path.abspath(filename)) as f:
+        reader = csv.reader(f)
+        for i, row in enumerate(reader):
+            if i > 0 or not isNumList(row):
+                return -2
+            return convertToInts(row)
+
 def bSort(vals):
     if not isNumList(vals) or not vals:
         return -1, -1
@@ -36,28 +45,29 @@ def bSort(vals):
                 vals[j-1], vals[j] = vals[j], vals[j-1]
     return (vals, steps)
 
-# Temporary steps implementation with global variable
+# Temporary steps implementation with global variable (Really bad lol)
 mSortSteps = 0
 def mSort(vals):
+    global mSortSteps
     if not vals:
         return -1
     def merge(l1, l2):
+        global mSortSteps
         res = []
         while l1 and l2:
+            mSortSteps += 1
             if l1[0] > l2[0]:
                 res.append(l2.pop(0))
             else:
                 res.append(l1.pop(0))
         while l1:
-
             res.append(l1.pop(0))
         while l2:
-
             res.append(l2.pop(0))
+        mSortSteps += 1
         return res
     if not isNumList(vals):
         return -1
-
     if len(vals) == 1:
         return vals
     midpoint = len(vals) // 2
@@ -80,7 +90,6 @@ def lSearch(vals, val):
 def bSearch(vals, val, steps=0):
     if not isNumList(vals) or not isNumList([val]):
         return -2
-    vals = convertToInts(vals)
     if not isSorted(vals):
         return -1
     val = int(val)
@@ -99,3 +108,5 @@ def bSearch(vals, val, steps=0):
     elif val > vals[midpoint]:
         steps += 1
         return bSearch(vals[midpoint:], val, steps)
+
+print(bSearch([1,3,5,67,56543], 5))

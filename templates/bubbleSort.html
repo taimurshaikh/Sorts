@@ -64,11 +64,11 @@
   </form>
   <div class="row">
     <div class="col">
-      {% if sortDone %}
+      {% if done %}
         {% if steps ==  -1 %}
           Invalid list/range
         {% elif steps ==  -2 %}
-          Invalid file 
+          Invalid file
         {% else %}
           {{ res }} sorted in {{ steps }} steps and took {{ timeTaken }} ns
         {% endif %}

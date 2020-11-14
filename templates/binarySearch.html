@@ -59,11 +59,13 @@
   </div>
   <div class="row">
     <div class="col">
-      {% if searchDone %}
+      {% if done %}
         {% if steps ==  -1 %}
           List must be sorted
         {% elif steps == -2 %}
           Invalid list/value
+        {% elif steps == -3 %}
+          Invalid file
         {% elif steps == False %}
           Item not found
         {% else %}

@@ -64,36 +64,33 @@ def bubbleSort():
     # If user wants to input a file
     chooseFile = request.form.get("csvFile")
     if chooseFile:
-        if chooseFile[-3:] != "csv":
-            return render_template("bubbleSort.html", sortDone=True, steps=-2)
-        with open(os.path.abspath(chooseFile)) as f:
-            reader = csv.reader(f)
-            for i, row in enumerate(reader):
-                if i > 0 :
-                    return render_template("bubbleSort.html", sortDone=True, steps=-2)
-                if not isNumList(row):
-                    return render_template("bubbleSort.html", sortDone=True, steps=-2)
-                lst = convertToInts(row)
+        lst = validateFile(chooseFile)
+        if not lst:
+            return render_template("bubbleSort.html", done=True, steps=lst)
 
     else:
         # List of numbers that user inputted
         lst = request.form.get("bSortInput").split(",")
-        # Process list of values
-        while "" in lst:
-            lst.remove("")
 
         isRandom = request.form.get("random")
         # If random array, then the user must enter 3 values: length,startrange,endrange
         if isRandom == "random":
+            while "" in lst:
+                lst.remove("")
+            while " " in lst:
+                lst.remove(" ")
             if len(lst) != 3 or not isNumList(lst) or not lst:
-                return render_template("bubbleSort.html", sortDone=True, steps=-1)
+                return render_template("bubbleSort.html", done=True, steps=-1)
             lst = convertToInts(lst)
             length, start, end = lst[0], lst[1], lst[2]
             if end < start:
-                return render_template("bubbleSort.html", sortDone=True, steps=-1)
+                return render_template("bubbleSort.html", done=True, steps=-1)
             randomLst = [random.randrange(start,end) for x in range(length)]
             lst = randomLst
-
+    while "" in lst:
+        lst.remove("")
+    while " " in lst:
+        lst.remove(" ")
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform bubble sort on user data and store information about how many steps it took and the first occuring index of the value
@@ -107,7 +104,7 @@ def bubbleSort():
         # Making timeTaken equal the string we want to display if the algorithm was really fast
         timeTaken = "less than 1"
 
-    return render_template("bubbleSort.html", sortDone=True, res=res, steps=steps, timeTaken=timeTaken)
+    return render_template("bubbleSort.html", done=True, res=res, steps=steps, timeTaken=timeTaken)
 
 @app.route("/sorts/mergeSort", methods=["GET", "POST"])
 def mergeSort():
@@ -120,26 +117,14 @@ def mergeSort():
     # If user wants to input a file
     chooseFile = request.form.get("csvFile")
     if chooseFile:
-        if chooseFile[-3:] != "csv":
-            return render_template("mergeSort.html", sortDone=True, steps=-2)
-        with open(os.path.abspath(chooseFile)) as f:
-            reader = csv.reader(f)
-            for i, row in enumerate(reader):
-                if i > 0 :
-                    return render_template("mergeSort.html", sortDone=True, steps=-2)
-                if not isNumList(row):
-                    return render_template("mergeSort.html", sortDone=True, steps=-2)
-                lst = convertToInts(row)
+        lst = validateFile(chooseFile)
+        if not lst:
+            return render_template("bubbleSort.html", done=True, steps=lst)
     else:
         # First we must check if the user wants to generate a random array
         isRandom = request.form.get("random")
         # List of numbers that user inputted
         lst = request.form.get("mSortInput").split(",")
-        # Process list of values
-        while " " in lst:
-            lst.remove(" ")
-        while "" in lst:
-            lst.remove("")
         try:
             lst = convertToInts(lst)
         except:
@@ -147,19 +132,29 @@ def mergeSort():
 
         # If random array, then the user must enter 3 values: length,startrange,endrange
         if isRandom == "random":
+            while " " in lst:
+                lst.remove(" ")
+            while "" in lst:
+                lst.remove("")
             if len(lst) != 3 or not isNumList(lst) or not lst:
-                return render_template("mergeSort.html", sortDone=True, res=-1)
+                return render_template("mergeSort.html", done=True, res=-1)
             lst = convertToInts(lst)
             length, start, end = lst[0], lst[1], lst[2]
             if end < start:
-                return render_template("mergeSort.html", sortDone=True, steps=-1)
+                return render_template("mergeSort.html", done=True, steps=-1)
             randomLst = [random.randrange(start,end) for x in range(length)]
             lst = randomLst
 
+    # Process list of values
+    while " " in lst:
+        lst.remove(" ")
+    while "" in lst:
+        lst.remove("")
     # Use this to track how much time the algorithm takes
     startTime = time.time_ns()
     # Perform mergesort sort on user data
     res = mSort(lst)
+    steps = mSortSteps
     endTime = time.time_ns()
     timeTaken = endTime - startTime
     if not timeTaken:
@@ -168,7 +163,7 @@ def mergeSort():
     order = request.form.get("order")
     if order == "descending" and not isinstance(res, int):
         res = res[::-1]
-    return render_template("mergeSort.html", sortDone=True, res=res, timeTaken=timeTaken)
+    return render_template("mergeSort.html", done=True, res=res, steps=steps, timeTaken=timeTaken)
 
 @app.route("/searches/linearSearch", methods=["GET", "POST"])
 def linearSearch():
@@ -178,39 +173,53 @@ def linearSearch():
         return render_template("linearSearch.html")
 
     # POST REQUEST
-    # Check if the user wants to generate a random array
-    isRandom = request.form.get("random")
-    # List of numbers that user inputted
-    lst = request.form.get("lSearchInput").split(",")
+    # If user wants to input a file
+    chooseFile = request.form.get("csvFile")
+    if chooseFile:
+        lst = validateFile(chooseFile)
+        if not lst:
+            return render_template("linearSearch.html", done=True, steps=lst)
+    else:
+        # List of numbers that user inputted
+        lst = request.form.get("lSearchInput").split(",")
+        # Check if the user wants to generate a random array
+        isRandom = request.form.get("random")
+        # If random array, then the user must enter 3 values: length,startrange,endrange
+        if isRandom == "random":
+            while " " in lst:
+                lst.remove(" ")
+            while "" in lst:
+                lst.remove("")
+            if len(lst) != 3 or not isNumList(lst) or not lst:
+                return render_template("linearSearch.html", done=True, steps=-1)
+            lst = convertToInts(lst)
+            length, start, end = lst[0], lst[1], lst[2]
+            if end < start:
+                return render_template("linearSearch.html", done=True, steps=-1)
+            randomLst = [random.randrange(start,end) for x in range(length)]
+            lst = randomLst
+
+    # Value to search for
+    val = request.form.get("lSearchVal")
     # Process list of values
     while " " in lst:
         lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    # Value to search for
-    val = request.form.get("lSearchVal")
-    # If random array, then the user must enter 3 values: length,startrange,endrange
-    if isRandom == "random":
-        if len(lst) != 3 or not isNumList(lst) or not lst:
-            return render_template("linearSearch.html", sortDone=True, steps=-1)
-        lst = convertToInts(lst)
-        length, start, end = lst[0], lst[1], lst[2]
-        print(length)
-        if end < start:
-            return render_template("linearSearch.html", sortDone=True, steps=-1)
-        randomLst = [random.randrange(start,end) for x in range(length)]
-        lst = randomLst
     startTime = time.time_ns()
     # Perform linear search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = lSearch(lst, val)
+    print(steps)
     endTime = time.time_ns()
     timeTaken = endTime - startTime
     if not timeTaken:
         timeTaken = "less than 1"
     ind = None
-    if steps != False and steps != False and steps > 0:
-        ind = lst.index(val)
-    return render_template("linearSearch.html", searchDone=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
+    try:
+        ind = lst.index(int(val))
+    except:
+        pass
+    return render_template("linearSearch.html", done=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
 
 @app.route("/searches/binarySearch", methods=["GET", "POST"])
 def binarySearch():
@@ -220,15 +229,42 @@ def binarySearch():
         return render_template("binarySearch.html")
 
     # POST REQUEST
-    # List of numbers that user inputted
-    lst = request.form.get("bSearchInput").split(",")
+    # If user wants to input a file
+    chooseFile = request.form.get("csvFile")
+    if chooseFile:
+        lst = validateFile(chooseFile)
+        if not lst:
+            lst -= 1
+            return render_template("binarySearch.html", done=True, steps=lst)
+        lst = mSort(lst)
+    else:
+        # List of numbers that user inputted
+        lst = request.form.get("bSearchInput").split(",")
+        # Check if the user wants to generate a random array
+        isRandom = request.form.get("random")
+        # If random array, then the user must enter 3 values: length,startrange,endrange
+        if isRandom == "random":
+            while " " in lst:
+                lst.remove(" ")
+            while "" in lst:
+                lst.remove("")
+            if len(lst) != 3 or not isNumList(lst) or not lst:
+                return render_template("binarySearch.html", done=True, steps=-2)
+            lst = convertToInts(lst)
+            length, start, end = lst[0], lst[1], lst[2]
+            if end < start:
+                return render_template("binarySearch.html", done=True, steps=-2)
+            randomLst = mSort([random.randrange(start,end) for x in range(length)])
+            lst = randomLst
+
+    lst = convertToInts(lst)
+    # Value to search for
+    val = request.form.get("bSearchVal")
     # Process list of values
     while " " in lst:
         lst.remove(" ")
     while "" in lst:
         lst.remove("")
-    # Value to search for
-    val = request.form.get("bSearchVal")
     startTime = time.time_ns()
     # Perform binary search on user data and store information about whether the value was found, how many steps it took and the first occuring index of the value
     steps = bSearch(lst, val)
@@ -237,7 +273,8 @@ def binarySearch():
     if not timeTaken:
         timeTaken = "less than 1"
     ind = None
-    if steps != False and steps >= 0:
-        lst = convertToInts(lst)
+    try:
         ind = lst.index(int(val))
-    return render_template("binarySearch.html", searchDone=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
+    except:
+        ind = "not found"
+    return render_template("binarySearch.html", done=True, val=val, steps=steps, ind=ind, timeTaken=timeTaken)
